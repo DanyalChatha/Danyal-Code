@@ -3,7 +3,7 @@ const express = require("express");
 const path = require("path");
 const { MongoClient } = require("mongodb");
  
-const dbUrl = "mongodb://localhost:27017/Shoesdb"; 
+const dbUrl = "mongodb://127.0.0.1:27017/Shoesdb"; 
 const client = new MongoClient(dbUrl);
 
 
@@ -22,10 +22,16 @@ var links = [
     path: "about"
   },
   {
-    name: "Products",
+    name: "Product",
     path: "product"
   }
+
 ];
+
+var shoe = [{
+  name:"Product",
+  path: "product"
+}];
 
 //PAGE ROUTES
 app.get("/", (request, response) =>{
@@ -37,9 +43,12 @@ app.get("/about", (request, response)=>{
 });
 
 app.get("/product", async (request, response)=>{ 
-  links = await getLinks();
-  response.render("product", {title: "Products", menu: links});
+  shoe = await getLinks();
+  response.render("product", {title: "Products", menu: links, display: shoe});
 });
+
+
+
 
 //SET UP TEMPLATE ENGINE
 app.set("views", path.join(__dirname, "views"));
